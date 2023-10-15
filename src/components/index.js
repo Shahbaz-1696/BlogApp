@@ -8,6 +8,8 @@ import Login from './Login'
 import Input from './Input'
 import PostCard from './PostCard'
 import Select from './Select'
+import Signup from './Signup'
+import Protected from './AuthLayout'
 
 export {Header, 
     Footer, 
@@ -19,4 +21,6 @@ export {Header,
     Input,
     PostCard,
     Select,
+    Signup,
+    Protected
 }
