@@ -10,6 +10,7 @@ import PostCard from './PostCard'
 import Select from './Select'
 import Signup from './Signup'
 import Protected from './AuthLayout'
+import RTE from './RTE'
 
 export {Header, 
     Footer, 
@@ -22,5 +23,6 @@ export {Header,
     PostCard,
     Select,
     Signup,
-    Protected
+    Protected,
+    RTE
 }
