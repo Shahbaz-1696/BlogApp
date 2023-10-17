@@ -11,20 +11,20 @@ function PostForm({post}) {
         defaultValues: {
             title: post?.title || '',
             content: post?.content || '',
-            slug: post?.slug || '',
-            status: post?.status || ''
+            slug: post?.$id || '',
+            status: post?.status || 'active'
         }
     })
 
     const navigate = useNavigate();
-    const userData = useSelector(state => state.user.userData)
+    const userData = useSelector(state => state.auth.userData)
 
     const submit = async(data) => {
-        if(data){
+        if(post){
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null
 
             if(file){
-                appwriteService.deleteFile(post.$id)
+                appwriteService.deleteFile(post.featuredImage)
             }
 
             const dbPost = await appwriteService.updatePost(post.$id, {
@@ -37,7 +37,7 @@ function PostForm({post}) {
             }
 
         } else {
-            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null
+            const file = await appwriteService.uploadFile(data.image[0])
             if(file){
                 const fileId = file.$id
                 data.featuredImage = fileId
@@ -59,7 +59,7 @@ function PostForm({post}) {
     React.useEffect(() => {
         const subscription = watch((value, {name}) => {
             if(name === "title"){
-                setValue("slug", slugTransform(value.title, {shouldValidate: true}))
+                setValue("slug", slugTransform(value.title), {shouldValidate: true})
             }
         }) 
 
@@ -68,7 +68,7 @@ function PostForm({post}) {
     }, [watch, slugTransform, setValue])
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit(submit)} className='flex flex-wrap'>
         <div className='w-2/3 px-2'>
             <Input
             label="Title: "
@@ -81,7 +81,7 @@ function PostForm({post}) {
             className="mb-4"
             {...register("slug", {required: true})}
             onInput={(e) => {
-                setValue("slug", slugTransform(e.currentTarget.value, {shouldValidate: true}))
+                setValue("slug", slugTransform(e.currentTarget.value), {shouldValidate: true})
             }}
             />
             <RTE name="content" label="Content" control={control} defaultValue={getValues("content")} />

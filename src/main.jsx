@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/add-post',
+        path: '/add-posts',
         element: (
           <AuthLayout authentication>
             {" "}
